@@ -1,0 +1,15 @@
+{
+  "name": "node-opensec",
+  "version": "0.1.0",
+  "description": "Nodejs package for OpenSecrets API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "the-wash",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
