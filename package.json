@@ -1,5 +1,5 @@
 {
-  "name": "node-opensec",
+  "name": "@the-wash/node-opensec",
   "version": "0.1.0",
   "description": "Nodejs package for OpenSecrets API",
   "main": "index.js",
