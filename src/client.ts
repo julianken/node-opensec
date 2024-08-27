@@ -1,3 +1,5 @@
+import { buildOpenSecretsUri } from './util/uri';
+
 class Client {
   private apiKey: string;
 
@@ -10,8 +12,15 @@ class Client {
   }
 
   getLegislators(state: string): Promise<Response> {
-    return fetch(`https://www.opensecrets.org/api/?id=${state}&method=getLegislators&output=json&apikey=${process.env.OPENSECRETS_API_KEY}`);
-  }
+    return fetch(
+      buildOpenSecretsUri({
+        id: state,
+        method: 'getLegislators',
+        output: 'json',
+        apikey: this.apiKey,
+      })
+    );
+  };
 }
 
 export { Client };
