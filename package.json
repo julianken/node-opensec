@@ -4,7 +4,12 @@
   "description": "Nodejs package for OpenSecrets API",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch"
+    "start": "ts-node src/index.ts",
+    "test:watch": "jest --watch",
+    "test": "jest",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "build": "yarn tsc"
   },
   "author": "the-wash",
   "license": "MIT",

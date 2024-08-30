@@ -9,7 +9,9 @@ export default {
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },
+  transformIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/'],
   coverageDirectory: 'coverage',
   collectCoverageFrom: ['src/**/*.ts'],
   verbose: true,
+  testMatch: ['**/src/**/*.spec.ts'],
 };
