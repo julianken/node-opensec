@@ -27,7 +27,7 @@ class Client {
       throw new Error('Network response was not ok');
     }
     
-    const data: Legistlators = await response.json();
+    const data: Legislators = await response.json();
     return data;
   }
 }
