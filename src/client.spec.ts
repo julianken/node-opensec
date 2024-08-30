@@ -1,6 +1,6 @@
 import { Client } from './client';
 import { faker } from '@faker-js/faker';
-import getLegislators from './spec/fixtures/getLegislators.json'
+import getLegislators from './spec/fixtures/getLegislators.json';
 
 describe('Client', () => {
   let client: Client;
@@ -29,8 +29,9 @@ describe('Client', () => {
 
   it('should make a request to the correct URL when fetching legislators', async () => {
     const mockFetch = jest.spyOn(global, 'fetch').mockResolvedValue({
-      json: () => Promise.resolve({ response: getLegislators.response }),
-    } as Response);
+      ok: true,
+      json: () => Promise.resolve(getLegislators),
+    } as unknown as Response);
 
     const state = faker.location.state({ abbreviated: true });
     await client.getLegislators(state);
