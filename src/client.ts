@@ -1,5 +1,5 @@
 import { buildOpenSecretsUri } from './util/uri';
-import { Legistlators } from './types/Legislators';
+import { Legislators } from './types/Legislators';
 import { OutputFormat } from './types/common';
 
 class Client {
@@ -13,7 +13,7 @@ class Client {
     this.apiKey = process.env.OPENSECRETS_API_KEY;
   }
 
-  async getLegislators(state: string, output: OutputFormat = 'json'): Promise<Legistlators> {
+  async getLegislators(state: string, output: OutputFormat = 'json'): Promise<Legislators> {
     const uri = buildOpenSecretsUri({
       id: state,
       method: 'getLegislators',

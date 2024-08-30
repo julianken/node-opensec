@@ -1,4 +1,4 @@
-export type Legistlator = {
+export type Legislator = {
   id: string;
   name: string;
   party: string;
@@ -10,10 +10,10 @@ export type Legistlator = {
   image: string;
 };
 
-export type Legistlators = {
+export type Legislators = {
   response: {
     legislators: {
-      legislator: Legistlator[];
+      legislator: Legislator[];
     };
   };
 };
