@@ -40,4 +40,18 @@ describe('Client', () => {
       `https://www.opensecrets.org/api/?id=${state}&method=getLegislators&output=json&apikey=${apiKey}`
     );
   });
+
+  it('should use xml when xml is passed as an argument', async () => {
+    const mockFetch = jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(getLegislators),
+    } as unknown as Response);
+
+    const state = faker.location.state({ abbreviated: true });
+    await client.getLegislators(state, 'xml');
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      `https://www.opensecrets.org/api/?id=${state}&method=getLegislators&output=xml&apikey=${apiKey}`
+    );
+  });
 });
