@@ -1,7 +1,15 @@
+import { StateAbbreviation } from 'common';
 import { buildOpenSecretsUri } from './util/uri';
 import { LegislatorsResponse, Legislator } from 'Legislators';
 
 const JSON = 'json';
+
+type GetLegislatorParams = {
+  id: StateAbbreviation;
+  method: 'getLegislators';
+  output: 'json';
+  apikey: string;
+}
 
 class Client {
   private apiKey: string;
@@ -14,13 +22,15 @@ class Client {
     this.apiKey = process.env.OPENSECRETS_API_KEY;
   }
 
-  async getLegislators(state: string): Promise<Legislator[]> {
-    const uri = buildOpenSecretsUri({
+  async getLegislators(state: StateAbbreviation): Promise<Legislator[]> {
+    const uriProps: GetLegislatorParams = {
       id: state,
       method: 'getLegislators',
       output: JSON,
       apikey: this.apiKey,
-    });
+    }
+
+    const uri = buildOpenSecretsUri(uriProps);
 
     const response: Response = await fetch(uri);
     

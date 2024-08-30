@@ -2,13 +2,14 @@ import { Client } from './client';
 import { faker } from '@faker-js/faker';
 import getLegislators from './spec/fixtures/getLegislators.json';
 import { legislatorsMock } from './spec/fixtures/mocks/legislators';
+import { StateAbbreviation } from 'common';
 
 describe('Client', () => {
   let client: Client;
   let apiKey: string;
 
   beforeEach(() => {
-    jest.resetModules();  // Reset modules before each test case
+    jest.resetModules();
     apiKey = faker.string.alphanumeric({ length: 32 });
     process.env.OPENSECRETS_API_KEY = apiKey;
     client = new Client();
@@ -19,7 +20,6 @@ describe('Client', () => {
     jest.restoreAllMocks();
   });
 
-  // Initialization Tests
   it('should throw an error if OPENSECRETS_API_KEY is not set', () => {
     delete process.env.OPENSECRETS_API_KEY;
     expect(() => new Client()).toThrow('OPENSECRETS_API_KEY environment variable is required');
@@ -29,7 +29,6 @@ describe('Client', () => {
     expect(client).toBeInstanceOf(Client);
   });
 
-  // API Interaction Tests
   it('should make a request to the correct URL when fetching legislators', async () => {
     const mockFetch = jest.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
@@ -37,7 +36,7 @@ describe('Client', () => {
     } as unknown as Response);
 
     const state = faker.location.state({ abbreviated: true });
-    await client.getLegislators(state);
+    await client.getLegislators(state as StateAbbreviation);
 
     expect(mockFetch).toHaveBeenCalledWith(
       `https://www.opensecrets.org/api/?id=${state}&method=getLegislators&output=json&apikey=${apiKey}`
@@ -53,14 +52,13 @@ describe('Client', () => {
     } as unknown as Response);
 
     const state = faker.location.state({ abbreviated: true });
-    const legislators = await client.getLegislators(state);
+    const legislators = await client.getLegislators(state as StateAbbreviation);
 
     expect(legislators).toEqual(legislatorsMock);
 
     mockFetch.mockRestore();
   });
 
-  // Error Handling Tests
   it('should throw an error if the network request fails', async () => {
     const mockFetch = jest.spyOn(global, 'fetch').mockResolvedValue({
       ok: false,
@@ -68,7 +66,7 @@ describe('Client', () => {
 
     const state = faker.location.state({ abbreviated: true });
 
-    await expect(client.getLegislators(state)).rejects.toThrow('Network response was not ok');
+    await expect(client.getLegislators(state as StateAbbreviation)).rejects.toThrow('Network response was not ok');
 
     mockFetch.mockRestore();
   });
@@ -81,7 +79,7 @@ describe('Client', () => {
     } as unknown as Response);
 
     const state = faker.location.state({ abbreviated: true });
-    const legislators = await client.getLegislators(state);
+    const legislators = await client.getLegislators(state as StateAbbreviation);
 
     expect(legislators).toEqual([]);
 
@@ -98,12 +96,11 @@ describe('Client', () => {
 
     const state = faker.location.state({ abbreviated: true });
 
-    await expect(client.getLegislators(state)).rejects.toThrow('Network response was not ok');
+    await expect(client.getLegislators(state as StateAbbreviation)).rejects.toThrow('Network response was not ok');
 
     mockFetch.mockRestore();
   });
 
-  // Edge Case Tests
   it('should handle multiple consecutive requests', async () => {
     const mockFetch = jest.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
@@ -113,8 +110,8 @@ describe('Client', () => {
     const state1 = faker.location.state({ abbreviated: true });
     const state2 = faker.location.state({ abbreviated: true });
 
-    const legislators1 = await client.getLegislators(state1);
-    const legislators2 = await client.getLegislators(state2);
+    const legislators1 = await client.getLegislators(state1 as StateAbbreviation);
+    const legislators2 = await client.getLegislators(state2 as StateAbbreviation);
 
     expect(legislators1).toEqual(legislatorsMock);
     expect(legislators2).toEqual(legislatorsMock);
@@ -134,7 +131,7 @@ describe('Client', () => {
     } as unknown as Response);
 
     const state = faker.location.state({ abbreviated: true });
-    const legislators = await client.getLegislators(state);
+    const legislators = await client.getLegislators(state as StateAbbreviation);
 
     expect(legislators).toHaveLength(1000);
     mockFetch.mockRestore();
