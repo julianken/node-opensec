@@ -1,1 +1,1 @@
-export type OutputFormat = 'json' | 'xml';
+export type OutputFormat = 'json';

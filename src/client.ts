@@ -1,6 +1,7 @@
 import { buildOpenSecretsUri } from './util/uri';
-import { Legislators } from './types/Legislators';
-import { OutputFormat } from './types/common';
+import { LegislatorsResponse, Legislator } from 'Legislators';
+
+const JSON = 'json';
 
 class Client {
   private apiKey: string;
@@ -13,22 +14,22 @@ class Client {
     this.apiKey = process.env.OPENSECRETS_API_KEY;
   }
 
-  async getLegislators(state: string, output: OutputFormat = 'json'): Promise<Legislators> {
+  async getLegislators(state: string): Promise<Legislator[]> {
     const uri = buildOpenSecretsUri({
       id: state,
       method: 'getLegislators',
-      output: output,
+      output: JSON,
       apikey: this.apiKey,
     });
 
-    const response = await fetch(uri);
+    const response: Response = await fetch(uri);
     
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    
-    const data: Legislators = await response.json();
-    return data;
+
+    const data: LegislatorsResponse = await response.json();
+    return data.response.legislator.map((legislator) => legislator['@attributes']);
   }
 }
 
