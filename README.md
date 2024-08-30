@@ -1,5 +1,6 @@
 # node-opensec
 Node package for consuming interacting with the OpenSecrets API
+[npm @the-wash/node-opensec](https://www.npmjs.com/package/@the-wash/node-opensec)
 
 ## Getting started
 Create .env
