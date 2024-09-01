@@ -27,29 +27,17 @@ yarn add @the-wash/node-opensec
 
 ## Usage
 
-To use the client, you will need to obtain an OpenSecrets API key. This will be used to initialize the client and will be sent with requests.
+To use the client, you will need to obtain an Open Secrets API key. This will be used to initialize the client and will be sent with requests.
 
 ```javascript
 import { Client as OpenSecretsClient } from '@the-wash/node-opensec';
 
-const client = new OpenSecretsClient('your-api-key');
-
-async function fetchLegislators() {
-  try {
-    const legislators = await client.getLegislators('NY');
-    console.log(legislators);
-  } catch (error) {
-    console.error('Error fetching legislators:', error.message);
-  }
-}
-
-fetchLegislators();
+const openSecretsClient = new OpenSecretsClient('your-api-key');
 ```
 
-**Example:**
-
+You can then use the client to fetch data from the Open Secrets API.
 ```javascript
-const legislators = await client.getLegislators('CA');
+const legislators = await openSecretsClient.getLegislators('CA');
 ```
 
 ## Environment Variables
