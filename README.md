@@ -6,7 +6,6 @@ This project is a Node.js client for interacting with the OpenSecrets API. It pr
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Environment Variables](#environment-variables)
 - [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
@@ -38,14 +37,6 @@ const openSecretsClient = new OpenSecretsClient('your-api-key');
 You can then use the client to fetch data from the Open Secrets API.
 ```javascript
 const legislators = await openSecretsClient.getLegislators('CA');
-```
-
-## Environment Variables
-
-This client requires the OpenSecrets API key to be set in your environment. Create a .env file in your project root and add:
-
-```bash
-OPENSECRETS_API_KEY=your_api_key_here
 ```
 
 ## Testing
