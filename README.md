@@ -49,7 +49,7 @@ yarn test
 To run tests in watch mode:
 
 ```bash
-npm run test:watch
+yarn run test:watch
 ```
 
 ## Contributing
