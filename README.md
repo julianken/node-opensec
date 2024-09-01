@@ -4,12 +4,12 @@ This project is a Node.js client for interacting with the OpenSecrets API. It pr
 
 ## Table of Contents
 
-- Installation
-- Usage
-- Environment Variables
-- Testing
-- Contributing
-- License
+- [Installation](#installation)
+- [Usage](#usage)
+- [Environment Variables](#environment-variables)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Installation
 
@@ -30,9 +30,9 @@ yarn add @the-wash/node-opensec
 To use the client, you first need to set up your environment with the OpenSecrets API key.
 
 ```javascript
-import { Client } from '@the-wash/node-opensec';
+import { Client as OpenSecretsClient } from '@the-wash/node-opensec';
 
-const client = new Client();
+const client = new OpenSecretsClient();
 
 async function fetchLegislators() {
   try {
