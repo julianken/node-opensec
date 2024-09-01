@@ -11,21 +11,18 @@ describe('Client', () => {
   beforeEach(() => {
     jest.resetModules();
     apiKey = faker.string.alphanumeric({ length: 32 });
-    process.env.OPENSECRETS_API_KEY = apiKey;
-    client = new Client();
+    client = new Client(apiKey);
   });
 
   afterEach(() => {
-    delete process.env.OPENSECRETS_API_KEY;
     jest.restoreAllMocks();
   });
 
-  it('should throw an error if OPENSECRETS_API_KEY is not set', () => {
-    delete process.env.OPENSECRETS_API_KEY;
-    expect(() => new Client()).toThrow('OPENSECRETS_API_KEY environment variable is required');
+  it('should throw an error if the API key is not provided', () => {
+    expect(() => new Client('')).toThrow('A valid 32 character API key is required');
   });
 
-  it('should initialize client if OPENSECRETS_API_KEY is set', () => {
+  it('should initialize client with the provided API key', () => {
     expect(client).toBeInstanceOf(Client);
   });
 

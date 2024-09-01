@@ -14,12 +14,12 @@ type GetLegislatorParams = {
 class Client {
   private apiKey: string;
 
-  constructor() {
-    if (!process.env.OPENSECRETS_API_KEY) {
-      throw new Error('OPENSECRETS_API_KEY environment variable is required');
+  constructor(apiKey: string) {
+    if (!apiKey || typeof apiKey !== 'string' || apiKey.length !== 32) {
+      throw new Error('A valid 32 character API key is required');
     }
 
-    this.apiKey = process.env.OPENSECRETS_API_KEY;
+    this.apiKey = apiKey;
   }
 
   async getLegislators(state: StateAbbreviation): Promise<Legislator[]> {
