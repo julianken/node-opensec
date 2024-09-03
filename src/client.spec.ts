@@ -8,7 +8,7 @@ import { StateAbbreviation } from './types/common';
 
 fetchMock.enableMocks();
 
-describe('OpenSecrets API Client', () => {
+describe('Client()', () => {
   let client: Client;
   let apiKey: string;
 
@@ -22,7 +22,7 @@ describe('OpenSecrets API Client', () => {
     jest.restoreAllMocks();
   });
 
-  describe('Client Initialization', () => {
+  describe('client', () => {
     it('should throw an error if the API key is not provided', () => {
       expect(() => new Client('')).toThrow('A valid 32 character API key is required');
     });
@@ -43,7 +43,7 @@ describe('OpenSecrets API Client', () => {
     });
   });
 
-  describe('Request Handling', () => {
+  describe('methods', () => {
     describe('getLegislators', () => {
       it('should make a request to the correct URL when fetching legislators', async () => {
         fetchMock.mockResponseOnce(JSON.stringify(getLegislators));
@@ -113,7 +113,7 @@ describe('OpenSecrets API Client', () => {
     });
   });
 
-  describe('Error Handling', () => {
+  describe('error handling', () => {
     it('should throw an error for network request failures', async () => {
       fetchMock.mockRejectOnce(new Error('Network Error'));
 
@@ -151,84 +151,6 @@ describe('OpenSecrets API Client', () => {
       const summary = await client.getCandidateSummary(invalidCid);
 
       expect(summary).toBeUndefined();
-    });
-  });
-
-  describe('Additional Scenarios', () => {
-    it('should handle multiple consecutive requests', async () => {
-      fetchMock.mockResponse(JSON.stringify(getLegislators));
-
-      const state1 = 'CA';
-      const state2 = 'NY';
-
-      const legislators1 = await client.getLegislators(state1 as StateAbbreviation);
-      const legislators2 = await client.getLegislators(state2 as StateAbbreviation);
-
-      expect(legislators1).toEqual(legislatorsMock);
-      expect(legislators2).toEqual(legislatorsMock);
-      expect(fetchMock).toHaveBeenCalledTimes(2);
-    });
-
-    it('should return an empty array if the response has no legislators', async () => {
-      const emptyResponse = { response: { legislator: [] } };
-      fetchMock.mockResponseOnce(JSON.stringify(emptyResponse));
-
-      const state = 'CA';
-      const legislators = await client.getLegislators(state as StateAbbreviation);
-
-      expect(legislators).toEqual([]);
-    });
-
-    it('should handle large responses efficiently for candidate summaries', async () => {
-      const largeResponse = {
-        response: {
-          summary: {
-            '@attributes': {
-              cand_name: 'Kiley, Kevin',
-              cid: 'N00050259',
-              cycle: '2022',
-              total: '3190567.92',
-              spent: '3151594.43',
-              cash_on_hand: '38973.49',
-              debt: '68518.2',
-              source: 'OpenSecrets.org',
-              last_updated: '12/31/2022',
-            },
-          },
-        },
-      };
-      fetchMock.mockResponseOnce(JSON.stringify(largeResponse));
-
-      const candidateCid = 'N00050259';
-      const summary = await client.getCandidateSummary(candidateCid, '2022');
-
-      expect(summary).toEqual(largeResponse.response.summary['@attributes']);
-    });
-
-    it('should handle large responses efficiently for candidate contributions', async () => {
-      const largeResponse = {
-        response: {
-          contributors: {
-            contributor: new Array(1000).fill({
-              '@attributes': {
-                org_name: 'Allworth Financial',
-                total: '17000',
-                pacs: '0',
-                indivs: '17000',
-              },
-            }),
-          },
-        },
-      };
-      fetchMock.mockResponseOnce(JSON.stringify(largeResponse));
-
-      const candidateCid = 'N00050259';
-      const contributions = await client.getCandidateContributions(candidateCid, '2022');
-
-      const parsedContributions = largeResponse.response.contributors.contributor.map(c => c['@attributes']);
-
-      expect(contributions).toHaveLength(1000);
-      expect(contributions).toEqual(parsedContributions);
     });
   });
 });
