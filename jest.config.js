@@ -1,7 +1,7 @@
 export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  setupFiles: ['dotenv/config'],
+  setupFiles: ['dotenv/config', './jest.setup.ts'],
   clearMocks: true,
   resetMocks: true,
   restoreMocks: true,

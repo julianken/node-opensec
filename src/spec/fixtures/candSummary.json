@@ -1,0 +1,23 @@
+{
+  "response": {
+      "summary": {
+          "@attributes": {
+              "cand_name": "Kiley, Kevin",
+              "cid": "N00050259",
+              "cycle": "2022",
+              "state": "",
+              "party": "R",
+              "chamber": "",
+              "first_elected": "",
+              "next_election": "2022",
+              "total": "3190567.92",
+              "spent": "3151594.43",
+              "cash_on_hand": "38973.49",
+              "debt": "68518.2",
+              "origin": "OpenSecrets",
+              "source": "https://www.opensecrets.org/members-of-congress/summary?cid=N00050259&cycle=2022",
+              "last_updated": "12/31/2022"
+          }
+      }
+  }
+}
