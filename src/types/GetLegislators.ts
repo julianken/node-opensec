@@ -1,3 +1,5 @@
+import { StateAbbreviation } from './common';
+
 export interface Legislator {
   cid: string;
   firstlast: string;
@@ -31,3 +33,10 @@ export interface LegislatorsResponse {
     legislator: LegislatorWrapper[];
   };
 }
+
+export type GetLegislatorParams = {
+  id: StateAbbreviation;
+  method: 'getLegislators';
+  output: 'json';
+  apikey: string;
+};

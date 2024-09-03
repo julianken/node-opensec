@@ -1,29 +1,8 @@
 import { StateAbbreviation } from './types/common';
 import { buildOpenSecretsUri } from './util/uri';
-import { LegislatorsResponse, Legislator } from './types/Legislators';
-
-type GetLegislatorParams = {
-  id: StateAbbreviation;
-  method: 'getLegislators';
-  output: 'json';
-  apikey: string;
-};
-
-type GetCandidateSummaryParams = {
-  cid: string;
-  method: 'candSummary';
-  cycle?: string;
-  output: 'json';
-  apikey: string;
-};
-
-type GetCandidateContributionsParams = {
-  cid: string;
-  method: 'candContrib';
-  cycle?: string;
-  output: 'json';
-  apikey: string;
-};
+import { LegislatorsResponse, Legislator, LegislatorWrapper, GetLegislatorParams } from './types/GetLegislators';
+import { CandidateSummaryResponse, CandidateSummary, GetCandidateSummaryParams } from './types/CandSummary';
+import { CandidateContributionsResponse, ContributorWrapper, Contributor, GetCandidateContributionsParams } from './types/CandContrib';
 
 class Client {
   private apiKey: string;
@@ -43,14 +22,13 @@ class Client {
       apikey: this.apiKey,
     };
 
-    const uri = buildOpenSecretsUri(uriProps);
-    const response = await this.fetchData(uri);
-    const data: LegislatorsResponse = await response.json();
+    const uri: string = buildOpenSecretsUri(uriProps);
+    const data: LegislatorsResponse = await this.fetchData<LegislatorsResponse>(uri);
 
-    return data.response.legislator.map((legislator) => legislator['@attributes']);
+    return data.response.legislator.map((legislator: LegislatorWrapper) => legislator['@attributes']);
   }
 
-  async getCandidateSummary(cid: string, cycle?: string) {
+  async getCandidateSummary(cid: string, cycle?: string): Promise<CandidateSummary> {
     const uriProps: GetCandidateSummaryParams = {
       cid,
       method: 'candSummary',
@@ -59,14 +37,13 @@ class Client {
       apikey: this.apiKey,
     };
 
-    const uri = buildOpenSecretsUri(uriProps);
-    const response = await this.fetchData(uri);
-    const data = await response.json();
+    const uri: string = buildOpenSecretsUri(uriProps);
+    const data: CandidateSummaryResponse = await this.fetchData<CandidateSummaryResponse>(uri);
 
-    return data.response.candsummary;
+    return data.response.summary['@attributes'];
   }
 
-  async getCandidateContributions(cid: string, cycle?: string) {
+  async getCandidateContributions(cid: string, cycle?: string): Promise<Contributor[]> {
     const uriProps: GetCandidateContributionsParams = {
       cid,
       method: 'candContrib',
@@ -75,19 +52,19 @@ class Client {
       apikey: this.apiKey,
     };
 
-    const uri = buildOpenSecretsUri(uriProps);
-    const response = await this.fetchData(uri);
-    const data = await response.json();
+    const uri: string = buildOpenSecretsUri(uriProps);
+    const data: CandidateContributionsResponse = await this.fetchData<CandidateContributionsResponse>(uri);
 
-    return data.response.contributors;
+    return data.response.contributors.contributor.map((c: ContributorWrapper) => c['@attributes']);
   }
 
-  private async fetchData(uri: string): Promise<Response> {
+  private async fetchData<T>(uri: string): Promise<T> {
     const response: Response = await fetch(uri);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    return response;
+    const data: T = await response.json();
+    return data;
   }
 }
 
