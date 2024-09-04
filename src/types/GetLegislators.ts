@@ -7,8 +7,8 @@ export interface Legislator {
   party: string;
   office: string;
   gender: string;
-  first_elected: string;
-  exit_code: string;
+  firstelectoff: string;
+  exitcode: string;
   comments: string;
   phone: string;
   fax: string;
