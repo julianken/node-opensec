@@ -2,20 +2,23 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
     "esModuleInterop": true,
     "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "outDir": "dist",
+    "paths": {
+      "*": ["node_modules/*", "src/types/*"]
+    },
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
     "target": "ES2020",
-    "types": ["jest", "jest-fetch-mock"],
-    "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    }
+    "types": ["jest", "jest-fetch-mock"]
   },
   "include": [
     "src/**/*", "jest.setup.ts", "src/**/*.ts"
